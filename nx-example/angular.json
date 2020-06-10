@@ -14,7 +14,9 @@
             "outputPath": "dist/apps/restful",
             "main": "apps/restful/src/main.ts",
             "tsConfig": "apps/restful/tsconfig.app.json",
-            "assets": ["apps/restful/src/assets"]
+            "assets": [
+              "apps/restful/src/assets"
+            ]
           },
           "configurations": {
             "production": {
@@ -43,7 +45,10 @@
               "apps/restful/tsconfig.app.json",
               "apps/restful/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/restful/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/restful/**"
+            ]
           }
         },
         "test": {
@@ -80,7 +85,9 @@
               "apps/frontend/src/favicon.ico",
               "apps/frontend/src/assets"
             ],
-            "styles": ["apps/frontend/src/styles.scss"],
+            "styles": [
+              "apps/frontend/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -139,7 +146,10 @@
               "apps/frontend/tsconfig.app.json",
               "apps/frontend/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/frontend/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/frontend/**"
+            ]
           }
         },
         "test": {
@@ -174,8 +184,13 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/frontend-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/frontend-e2e/**"]
+            "tsConfig": [
+              "apps/frontend-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/frontend-e2e/**"
+            ]
           }
         }
       }
@@ -193,7 +208,10 @@
               "libs/journals/tsconfig.lib.json",
               "libs/journals/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/journals/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/journals/**"
+            ]
           }
         },
         "test": {
@@ -219,7 +237,10 @@
               "libs/types/tsconfig.lib.json",
               "libs/types/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/types/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/types/**"
+            ]
           }
         },
         "test": {
@@ -227,6 +248,84 @@
           "options": {
             "jestConfig": "libs/types/jest.config.js",
             "tsConfig": "libs/types/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "desktop": {
+      "root": "apps/desktop",
+      "sourceRoot": "apps/desktop/src",
+      "projectType": "application",
+      "prefix": "desktop",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "nx-electron:build",
+          "options": {
+            "outputPath": "dist/apps/desktop",
+            "main": "apps/desktop/src/main.ts",
+            "tsConfig": "apps/desktop/tsconfig.app.json",
+            "assets": [
+              "apps/desktop/src/assets"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/desktop/src/environments/environment.ts",
+                  "with": "apps/desktop/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "nx-electron:execute",
+          "options": {
+            "buildTarget": "desktop:build"
+          }
+        },
+        "package": {
+          "builder": "nx-electron:package",
+          "options": {
+            "name": "desktop",
+            "frontendProject": "frontend",
+            "out": "dist/packages"
+          }
+        },
+        "make": {
+          "builder": "nx-electron:make",
+          "options": {
+            "name": "desktop",
+            "frontendProject": "frontend",
+            "out": "dist/executables"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "config": "apps/desktop/.eslintrc",
+            "tsConfig": [
+              "apps/desktop/tsconfig.app.json",
+              "apps/desktop/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/desktop/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/desktop/jest.config.js",
+            "tsConfig": "apps/desktop/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
